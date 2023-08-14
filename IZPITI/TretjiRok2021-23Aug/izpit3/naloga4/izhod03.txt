@@ -1,0 +1,13 @@
+1. nadstropje / 90 m^2 / dvorana
+1. nadstropje / 12 m^2 / WC
+2. nadstropje / 25 m^2 / pisarna
+2. nadstropje / 23 m^2 / pisarna
+2. nadstropje / 20 m^2 / pisarna
+2. nadstropje / 17 m^2 / kuhinja
+2. nadstropje / 15 m^2 / kopirnica
+2. nadstropje / 8 m^2 / WC
+3. nadstropje / 30 m^2 / pisarna
+3. nadstropje / 20 m^2 / pisarna
+3. nadstropje / 17 m^2 / kuhinja
+3. nadstropje / 15 m^2 / kopirnica
+3. nadstropje / 8 m^2 / WC

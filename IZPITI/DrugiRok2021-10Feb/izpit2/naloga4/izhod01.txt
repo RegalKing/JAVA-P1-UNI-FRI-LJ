@@ -1,0 +1,4 @@
+[10, 20, 20, 30, 30, 30, 40, 50, 50, 60, 60, 60, 70]
+[10, 20, 20, 30, 30, 30, 40, 40, 40, 40, 50, 50, 50, 50, 50, 60, 60, 60, 60, 60, 60, 70, 70, 70, 70, 70, 70, 70]
+[Ana, Bojan, Bojan, Cvetka, Dejan, Dejan, Eva, Franci, Franci]
+[Ana, Bojan, Bojan, Cvetka, Cvetka, Cvetka, Dejan, Dejan, Dejan, Dejan, Eva, Eva, Eva, Eva, Eva, Franci]

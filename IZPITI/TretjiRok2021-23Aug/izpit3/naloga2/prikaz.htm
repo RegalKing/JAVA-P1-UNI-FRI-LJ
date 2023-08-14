@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (3/3)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                <td class="hoverOk"><a href="#testcase3">3</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab><span class="rwordv">int</span>[] h = {<span class="stevilo">60</span>, <span class="stevilo">50</span>, <span class="stevilo">40</span>, <span class="stevilo">80</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] w = {<span class="stevilo">70</span>, <span class="stevilo">50</span>, <span class="stevilo">60</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] a = {<span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] b = {<span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>, <span class="stevilo">50</span>};<br/>
+<tab><tab>System.out.println(Druga.steviloShranjenih(h, w, a, b));<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            6<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab><span class="rwordv">int</span>[] h = {<span class="stevilo">2</span>, <span class="stevilo">5</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] w = {<span class="stevilo">3</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] a = {<span class="stevilo">1</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>, <span class="stevilo">4</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] b = {<span class="stevilo">6</span>, <span class="stevilo">2</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>, <span class="stevilo">4</span>};<br/>
+<tab><tab>System.out.println(Druga.steviloShranjenih(h, w, a, b));<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            3<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab><span class="rwordv">int</span>[] h = {<span class="stevilo">550</span>, <span class="stevilo">685</span>, <span class="stevilo">597</span>, <span class="stevilo">322</span>, <span class="stevilo">137</span>, <span class="stevilo">450</span>, <span class="stevilo">749</span>, <span class="stevilo">628</span>, <span class="stevilo">387</span>, <span class="stevilo">551</span>, <span class="stevilo">496</span>, <span class="stevilo">525</span>, <span class="stevilo">609</span>, <span class="stevilo">106</span>, <span class="stevilo">883</span>, <span class="stevilo">634</span>, <span class="stevilo">511</span>, <span class="stevilo">196</span>, <span class="stevilo">567</span>, <span class="stevilo">314</span>, <span class="stevilo">599</span>, <span class="stevilo">901</span>, <span class="stevilo">119</span>, <span class="stevilo">841</span>, <span class="stevilo">578</span>, <span class="stevilo">232</span>, <span class="stevilo">927</span>, <span class="stevilo">764</span>, <span class="stevilo">295</span>, <span class="stevilo">351</span>, <span class="stevilo">11</span>, <span class="stevilo">249</span>, <span class="stevilo">655</span>, <span class="stevilo">172</span>, <span class="stevilo">486</span>, <span class="stevilo">669</span>, <span class="stevilo">992</span>, <span class="stevilo">359</span>, <span class="stevilo">571</span>, <span class="stevilo">338</span>, <span class="stevilo">67</span>, <span class="stevilo">979</span>, <span class="stevilo">219</span>, <span class="stevilo">22</span>, <span class="stevilo">862</span>, <span class="stevilo">19</span>, <span class="stevilo">195</span>, <span class="stevilo">326</span>, <span class="stevilo">800</span>, <span class="stevilo">425</span>, <span class="stevilo">250</span>, <span class="stevilo">165</span>, <span class="stevilo">415</span>, <span class="stevilo">643</span>, <span class="stevilo">259</span>, <span class="stevilo">517</span>, <span class="stevilo">478</span>, <span class="stevilo">502</span>, <span class="stevilo">528</span>, <span class="stevilo">569</span>, <span class="stevilo">968</span>, <span class="stevilo">138</span>, <span class="stevilo">613</span>, <span class="stevilo">65</span>, <span class="stevilo">423</span>, <span class="stevilo">141</span>, <span class="stevilo">167</span>, <span class="stevilo">839</span>, <span class="stevilo">583</span>, <span class="stevilo">613</span>, <span class="stevilo">131</span>, <span class="stevilo">362</span>, <span class="stevilo">831</span>, <span class="stevilo">616</span>, <span class="stevilo">732</span>, <span class="stevilo">462</span>, <span class="stevilo">102</span>, <span class="stevilo">130</span>, <span class="stevilo">924</span>, <span class="stevilo">714</span>, <span class="stevilo">918</span>, <span class="stevilo">376</span>, <span class="stevilo">455</span>, <span class="stevilo">110</span>, <span class="stevilo">1</span>, <span class="stevilo">615</span>, <span class="stevilo">698</span>, <span class="stevilo">161</span>, <span class="stevilo">218</span>, <span class="stevilo">247</span>, <span class="stevilo">915</span>, <span class="stevilo">511</span>, <span class="stevilo">74</span>, <span class="stevilo">452</span>, <span class="stevilo">83</span>, <span class="stevilo">993</span>, <span class="stevilo">840</span>, <span class="stevilo">734</span>, <span class="stevilo">34</span>, <span class="stevilo">55</span>, <span class="stevilo">512</span>, <span class="stevilo">793</span>, <span class="stevilo">901</span>, <span class="stevilo">373</span>, <span class="stevilo">890</span>, <span class="stevilo">167</span>, <span class="stevilo">527</span>, <span class="stevilo">238</span>, <span class="stevilo">27</span>, <span class="stevilo">474</span>, <span class="stevilo">942</span>, <span class="stevilo">957</span>, <span class="stevilo">426</span>, <span class="stevilo">281</span>, <span class="stevilo">524</span>, <span class="stevilo">315</span>, <span class="stevilo">580</span>, <span class="stevilo">70</span>, <span class="stevilo">462</span>, <span class="stevilo">989</span>, <span class="stevilo">780</span>, <span class="stevilo">650</span>, <span class="stevilo">935</span>, <span class="stevilo">582</span>, <span class="stevilo">961</span>, <span class="stevilo">820</span>, <span class="stevilo">883</span>, <span class="stevilo">799</span>, <span class="stevilo">37</span>, <span class="stevilo">486</span>, <span class="stevilo">267</span>, <span class="stevilo">9</span>, <span class="stevilo">824</span>, <span class="stevilo">423</span>, <span class="stevilo">578</span>, <span class="stevilo">413</span>, <span class="stevilo">245</span>, <span class="stevilo">139</span>, <span class="stevilo">257</span>, <span class="stevilo">492</span>, <span class="stevilo">973</span>, <span class="stevilo">924</span>, <span class="stevilo">819</span>, <span class="stevilo">530</span>, <span class="stevilo">889</span>, <span class="stevilo">794</span>, <span class="stevilo">409</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] w = {<span class="stevilo">424</span>, <span class="stevilo">346</span>, <span class="stevilo">497</span>, <span class="stevilo">144</span>, <span class="stevilo">683</span>, <span class="stevilo">867</span>, <span class="stevilo">17</span>, <span class="stevilo">981</span>, <span class="stevilo">541</span>, <span class="stevilo">100</span>, <span class="stevilo">273</span>, <span class="stevilo">375</span>, <span class="stevilo">624</span>, <span class="stevilo">144</span>, <span class="stevilo">741</span>, <span class="stevilo">950</span>, <span class="stevilo">356</span>, <span class="stevilo">139</span>, <span class="stevilo">379</span>, <span class="stevilo">267</span>, <span class="stevilo">858</span>, <span class="stevilo">577</span>, <span class="stevilo">31</span>, <span class="stevilo">773</span>, <span class="stevilo">313</span>, <span class="stevilo">368</span>, <span class="stevilo">403</span>, <span class="stevilo">313</span>, <span class="stevilo">37</span>, <span class="stevilo">112</span>, <span class="stevilo">371</span>, <span class="stevilo">188</span>, <span class="stevilo">186</span>, <span class="stevilo">963</span>, <span class="stevilo">498</span>, <span class="stevilo">437</span>, <span class="stevilo">597</span>, <span class="stevilo">406</span>, <span class="stevilo">782</span>, <span class="stevilo">729</span>, <span class="stevilo">621</span>, <span class="stevilo">138</span>, <span class="stevilo">594</span>, <span class="stevilo">709</span>, <span class="stevilo">24</span>, <span class="stevilo">895</span>, <span class="stevilo">476</span>, <span class="stevilo">581</span>, <span class="stevilo">421</span>, <span class="stevilo">90</span>, <span class="stevilo">960</span>, <span class="stevilo">434</span>, <span class="stevilo">361</span>, <span class="stevilo">496</span>, <span class="stevilo">870</span>, <span class="stevilo">270</span>, <span class="stevilo">93</span>, <span class="stevilo">586</span>, <span class="stevilo">36</span>, <span class="stevilo">108</span>, <span class="stevilo">862</span>, <span class="stevilo">881</span>, <span class="stevilo">863</span>, <span class="stevilo">20</span>, <span class="stevilo">559</span>, <span class="stevilo">202</span>, <span class="stevilo">242</span>, <span class="stevilo">900</span>, <span class="stevilo">823</span>, <span class="stevilo">424</span>, <span class="stevilo">791</span>, <span class="stevilo">109</span>, <span class="stevilo">404</span>, <span class="stevilo">604</span>, <span class="stevilo">954</span>, <span class="stevilo">687</span>, <span class="stevilo">149</span>, <span class="stevilo">623</span>, <span class="stevilo">207</span>, <span class="stevilo">666</span>, <span class="stevilo">627</span>, <span class="stevilo">91</span>, <span class="stevilo">996</span>, <span class="stevilo">565</span>, <span class="stevilo">888</span>, <span class="stevilo">348</span>, <span class="stevilo">842</span>, <span class="stevilo">80</span>, <span class="stevilo">756</span>, <span class="stevilo">214</span>, <span class="stevilo">134</span>, <span class="stevilo">356</span>, <span class="stevilo">272</span>, <span class="stevilo">968</span>, <span class="stevilo">75</span>, <span class="stevilo">880</span>, <span class="stevilo">472</span>, <span class="stevilo">833</span>, <span class="stevilo">941</span>, <span class="stevilo">568</span>, <span class="stevilo">143</span>, <span class="stevilo">455</span>, <span class="stevilo">602</span>, <span class="stevilo">386</span>, <span class="stevilo">825</span>, <span class="stevilo">822</span>, <span class="stevilo">598</span>, <span class="stevilo">373</span>, <span class="stevilo">686</span>, <span class="stevilo">3</span>, <span class="stevilo">418</span>, <span class="stevilo">549</span>, <span class="stevilo">527</span>, <span class="stevilo">923</span>, <span class="stevilo">409</span>, <span class="stevilo">33</span>, <span class="stevilo">815</span>, <span class="stevilo">993</span>, <span class="stevilo">964</span>, <span class="stevilo">129</span>, <span class="stevilo">306</span>, <span class="stevilo">946</span>, <span class="stevilo">160</span>, <span class="stevilo">42</span>, <span class="stevilo">803</span>, <span class="stevilo">524</span>, <span class="stevilo">168</span>, <span class="stevilo">679</span>, <span class="stevilo">976</span>, <span class="stevilo">466</span>, <span class="stevilo">178</span>, <span class="stevilo">465</span>, <span class="stevilo">384</span>, <span class="stevilo">529</span>, <span class="stevilo">122</span>, <span class="stevilo">692</span>, <span class="stevilo">681</span>, <span class="stevilo">793</span>, <span class="stevilo">701</span>, <span class="stevilo">718</span>, <span class="stevilo">405</span>, <span class="stevilo">493</span>, <span class="stevilo">976</span>, <span class="stevilo">468</span>, <span class="stevilo">326</span>, <span class="stevilo">299</span>, <span class="stevilo">645</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] a = {<span class="stevilo">527</span>, <span class="stevilo">852</span>, <span class="stevilo">584</span>, <span class="stevilo">472</span>, <span class="stevilo">456</span>, <span class="stevilo">878</span>, <span class="stevilo">324</span>, <span class="stevilo">992</span>, <span class="stevilo">420</span>, <span class="stevilo">652</span>, <span class="stevilo">586</span>, <span class="stevilo">158</span>, <span class="stevilo">622</span>, <span class="stevilo">182</span>, <span class="stevilo">63</span>, <span class="stevilo">647</span>, <span class="stevilo">838</span>, <span class="stevilo">583</span>, <span class="stevilo">989</span>, <span class="stevilo">582</span>, <span class="stevilo">58</span>, <span class="stevilo">328</span>, <span class="stevilo">771</span>, <span class="stevilo">897</span>, <span class="stevilo">892</span>, <span class="stevilo">842</span>, <span class="stevilo">641</span>, <span class="stevilo">672</span>, <span class="stevilo">495</span>, <span class="stevilo">761</span>, <span class="stevilo">456</span>, <span class="stevilo">531</span>, <span class="stevilo">81</span>, <span class="stevilo">680</span>, <span class="stevilo">764</span>, <span class="stevilo">576</span>, <span class="stevilo">190</span>, <span class="stevilo">185</span>, <span class="stevilo">914</span>, <span class="stevilo">811</span>, <span class="stevilo">126</span>, <span class="stevilo">647</span>, <span class="stevilo">773</span>, <span class="stevilo">396</span>, <span class="stevilo">707</span>, <span class="stevilo">937</span>, <span class="stevilo">140</span>, <span class="stevilo">248</span>, <span class="stevilo">616</span>, <span class="stevilo">703</span>, <span class="stevilo">977</span>, <span class="stevilo">778</span>, <span class="stevilo">27</span>, <span class="stevilo">982</span>, <span class="stevilo">567</span>, <span class="stevilo">575</span>, <span class="stevilo">497</span>, <span class="stevilo">676</span>, <span class="stevilo">699</span>, <span class="stevilo">408</span>, <span class="stevilo">542</span>, <span class="stevilo">904</span>, <span class="stevilo">738</span>, <span class="stevilo">683</span>, <span class="stevilo">767</span>, <span class="stevilo">657</span>, <span class="stevilo">401</span>, <span class="stevilo">767</span>, <span class="stevilo">25</span>, <span class="stevilo">122</span>, <span class="stevilo">708</span>, <span class="stevilo">777</span>, <span class="stevilo">130</span>, <span class="stevilo">882</span>, <span class="stevilo">429</span>, <span class="stevilo">992</span>, <span class="stevilo">944</span>, <span class="stevilo">522</span>, <span class="stevilo">863</span>, <span class="stevilo">131</span>, <span class="stevilo">935</span>, <span class="stevilo">701</span>, <span class="stevilo">284</span>, <span class="stevilo">250</span>, <span class="stevilo">81</span>, <span class="stevilo">433</span>, <span class="stevilo">506</span>, <span class="stevilo">108</span>, <span class="stevilo">780</span>, <span class="stevilo">951</span>, <span class="stevilo">484</span>, <span class="stevilo">299</span>, <span class="stevilo">885</span>, <span class="stevilo">930</span>, <span class="stevilo">423</span>, <span class="stevilo">751</span>, <span class="stevilo">587</span>, <span class="stevilo">911</span>, <span class="stevilo">900</span>, <span class="stevilo">544</span>, <span class="stevilo">723</span>, <span class="stevilo">897</span>, <span class="stevilo">190</span>, <span class="stevilo">70</span>, <span class="stevilo">727</span>, <span class="stevilo">184</span>, <span class="stevilo">822</span>, <span class="stevilo">774</span>, <span class="stevilo">201</span>, <span class="stevilo">547</span>, <span class="stevilo">832</span>, <span class="stevilo">544</span>, <span class="stevilo">255</span>, <span class="stevilo">859</span>, <span class="stevilo">774</span>, <span class="stevilo">750</span>, <span class="stevilo">438</span>, <span class="stevilo">815</span>, <span class="stevilo">718</span>, <span class="stevilo">571</span>, <span class="stevilo">912</span>, <span class="stevilo">62</span>, <span class="stevilo">262</span>, <span class="stevilo">89</span>, <span class="stevilo">205</span>, <span class="stevilo">456</span>, <span class="stevilo">332</span>, <span class="stevilo">691</span>, <span class="stevilo">873</span>, <span class="stevilo">245</span>, <span class="stevilo">297</span>, <span class="stevilo">913</span>, <span class="stevilo">73</span>, <span class="stevilo">770</span>, <span class="stevilo">912</span>, <span class="stevilo">288</span>, <span class="stevilo">557</span>, <span class="stevilo">728</span>, <span class="stevilo">779</span>, <span class="stevilo">334</span>, <span class="stevilo">85</span>, <span class="stevilo">925</span>, <span class="stevilo">90</span>, <span class="stevilo">138</span>, <span class="stevilo">506</span>, <span class="stevilo">560</span>, <span class="stevilo">934</span>, <span class="stevilo">927</span>, <span class="stevilo">495</span>, <span class="stevilo">828</span>, <span class="stevilo">98</span>, <span class="stevilo">864</span>, <span class="stevilo">685</span>, <span class="stevilo">806</span>, <span class="stevilo">258</span>, <span class="stevilo">419</span>, <span class="stevilo">404</span>, <span class="stevilo">444</span>, <span class="stevilo">105</span>, <span class="stevilo">482</span>, <span class="stevilo">754</span>, <span class="stevilo">888</span>, <span class="stevilo">770</span>, <span class="stevilo">533</span>, <span class="stevilo">114</span>, <span class="stevilo">929</span>};<br/>
+<tab><tab><span class="rwordv">int</span>[] b = {<span class="stevilo">589</span>, <span class="stevilo">338</span>, <span class="stevilo">873</span>, <span class="stevilo">680</span>, <span class="stevilo">166</span>, <span class="stevilo">406</span>, <span class="stevilo">912</span>, <span class="stevilo">461</span>, <span class="stevilo">937</span>, <span class="stevilo">796</span>, <span class="stevilo">517</span>, <span class="stevilo">634</span>, <span class="stevilo">195</span>, <span class="stevilo">732</span>, <span class="stevilo">829</span>, <span class="stevilo">200</span>, <span class="stevilo">14</span>, <span class="stevilo">806</span>, <span class="stevilo">643</span>, <span class="stevilo">302</span>, <span class="stevilo">442</span>, <span class="stevilo">528</span>, <span class="stevilo">729</span>, <span class="stevilo">676</span>, <span class="stevilo">636</span>, <span class="stevilo">822</span>, <span class="stevilo">231</span>, <span class="stevilo">902</span>, <span class="stevilo">788</span>, <span class="stevilo">224</span>, <span class="stevilo">888</span>, <span class="stevilo">704</span>, <span class="stevilo">66</span>, <span class="stevilo">261</span>, <span class="stevilo">499</span>, <span class="stevilo">722</span>, <span class="stevilo">584</span>, <span class="stevilo">14</span>, <span class="stevilo">305</span>, <span class="stevilo">803</span>, <span class="stevilo">895</span>, <span class="stevilo">945</span>, <span class="stevilo">165</span>, <span class="stevilo">549</span>, <span class="stevilo">566</span>, <span class="stevilo">337</span>, <span class="stevilo">260</span>, <span class="stevilo">521</span>, <span class="stevilo">191</span>, <span class="stevilo">357</span>, <span class="stevilo">73</span>, <span class="stevilo">669</span>, <span class="stevilo">333</span>, <span class="stevilo">438</span>, <span class="stevilo">256</span>, <span class="stevilo">679</span>, <span class="stevilo">130</span>, <span class="stevilo">589</span>, <span class="stevilo">909</span>, <span class="stevilo">594</span>, <span class="stevilo">678</span>, <span class="stevilo">348</span>, <span class="stevilo">414</span>, <span class="stevilo">577</span>, <span class="stevilo">864</span>, <span class="stevilo">308</span>, <span class="stevilo">335</span>, <span class="stevilo">888</span>, <span class="stevilo">651</span>, <span class="stevilo">818</span>, <span class="stevilo">499</span>, <span class="stevilo">557</span>, <span class="stevilo">748</span>, <span class="stevilo">257</span>, <span class="stevilo">842</span>, <span class="stevilo">922</span>, <span class="stevilo">853</span>, <span class="stevilo">174</span>, <span class="stevilo">745</span>, <span class="stevilo">166</span>, <span class="stevilo">744</span>, <span class="stevilo">58</span>, <span class="stevilo">613</span>, <span class="stevilo">389</span>, <span class="stevilo">473</span>, <span class="stevilo">545</span>, <span class="stevilo">321</span>, <span class="stevilo">991</span>, <span class="stevilo">206</span>, <span class="stevilo">439</span>, <span class="stevilo">211</span>, <span class="stevilo">891</span>, <span class="stevilo">988</span>, <span class="stevilo">111</span>, <span class="stevilo">859</span>, <span class="stevilo">646</span>, <span class="stevilo">579</span>, <span class="stevilo">872</span>, <span class="stevilo">641</span>, <span class="stevilo">505</span>, <span class="stevilo">759</span>, <span class="stevilo">842</span>, <span class="stevilo">499</span>, <span class="stevilo">566</span>, <span class="stevilo">207</span>, <span class="stevilo">54</span>, <span class="stevilo">895</span>, <span class="stevilo">728</span>, <span class="stevilo">534</span>, <span class="stevilo">816</span>, <span class="stevilo">370</span>, <span class="stevilo">45</span>, <span class="stevilo">324</span>, <span class="stevilo">748</span>, <span class="stevilo">924</span>, <span class="stevilo">87</span>, <span class="stevilo">487</span>, <span class="stevilo">709</span>, <span class="stevilo">783</span>, <span class="stevilo">213</span>, <span class="stevilo">252</span>, <span class="stevilo">80</span>, <span class="stevilo">839</span>, <span class="stevilo">361</span>, <span class="stevilo">899</span>, <span class="stevilo">62</span>, <span class="stevilo">639</span>, <span class="stevilo">596</span>, <span class="stevilo">823</span>, <span class="stevilo">92</span>, <span class="stevilo">673</span>, <span class="stevilo">592</span>, <span class="stevilo">6</span>, <span class="stevilo">152</span>, <span class="stevilo">185</span>, <span class="stevilo">393</span>, <span class="stevilo">922</span>, <span class="stevilo">448</span>, <span class="stevilo">186</span>, <span class="stevilo">66</span>, <span class="stevilo">914</span>, <span class="stevilo">501</span>, <span class="stevilo">134</span>, <span class="stevilo">630</span>, <span class="stevilo">844</span>, <span class="stevilo">751</span>, <span class="stevilo">175</span>, <span class="stevilo">359</span>, <span class="stevilo">472</span>, <span class="stevilo">150</span>, <span class="stevilo">558</span>, <span class="stevilo">662</span>, <span class="stevilo">759</span>, <span class="stevilo">238</span>, <span class="stevilo">624</span>, <span class="stevilo">732</span>, <span class="stevilo">715</span>, <span class="stevilo">304</span>, <span class="stevilo">982</span>, <span class="stevilo">452</span>, <span class="stevilo">856</span>, <span class="stevilo">705</span>, <span class="stevilo">968</span>, <span class="stevilo">399</span>, <span class="stevilo">903</span>, <span class="stevilo">746</span>};<br/>
+<tab><tab>System.out.println(Druga.steviloShranjenih(h, w, a, b));<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            44<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.7" -->
+    <!-- 12.8.2022 16:44.4 -->
+    <!-- DESKTOP-DBKLRDG, fe80::6030:5156:5a87:b37e%6 -->
+</html>

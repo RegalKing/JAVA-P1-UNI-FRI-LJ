@@ -1,0 +1,1081 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (8/8)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                <td class="hoverOk"><a href="#testcase3">3</a></td>
+                <td class="hoverOk"><a href="#testcase4">4</a></td>
+                <td class="hoverOk"><a href="#testcase5">5</a></td>
+                <td class="hoverOk"><a href="#testcase6">6</a></td>
+                <td class="hoverOk"><a href="#testcase7">7</a></td>
+                <td class="hoverOk"><a href="#testcase8">8</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">6</span>];<br/>
+<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>,  <span class="stevilo">20</span>,  <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Garaza(     <span class="niz">"G1"</span>, <span class="stevilo">100</span>, <span class="stevilo">200</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>,  <span class="stevilo">30</span>,  <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Avditorna(  <span class="niz">"A1"</span>,  <span class="stevilo">50</span>     );<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>,  <span class="stevilo">10</span>,  <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Avditorna(  <span class="niz">"A1"</span>,  <span class="stevilo">40</span>     );<br/>
+<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab>System.out.println(stavba.casCiscenja());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            820<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">2</span>];<br/>
+<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Garaza(   <span class="niz">"G1"</span>, <span class="stevilo">100</span>, <span class="stevilo">500</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>,  <span class="stevilo">50</span>     );<br/>
+<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab>System.out.println(stavba.casCiscenja());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            800<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">38</span>];<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>, <span class="stevilo">25</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G1"</span>, <span class="stevilo">224</span>, <span class="stevilo">195</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>, <span class="stevilo">103</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G2"</span>, <span class="stevilo">230</span>, <span class="stevilo">272</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A2"</span>, <span class="stevilo">155</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A3"</span>, <span class="stevilo">112</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>, <span class="stevilo">54</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>, <span class="stevilo">49</span>, <span class="stevilo">36</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G3"</span>, <span class="stevilo">126</span>, <span class="stevilo">342</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R4"</span>, <span class="stevilo">45</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A4"</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A5"</span>, <span class="stevilo">206</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A6"</span>, <span class="stevilo">117</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G4"</span>, <span class="stevilo">246</span>, <span class="stevilo">459</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R5"</span>, <span class="stevilo">14</span>, <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A7"</span>, <span class="stevilo">60</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R6"</span>, <span class="stevilo">90</span>, <span class="stevilo">78</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A8"</span>, <span class="stevilo">99</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R7"</span>, <span class="stevilo">90</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G5"</span>, <span class="stevilo">106</span>, <span class="stevilo">396</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A9"</span>, <span class="stevilo">198</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R8"</span>, <span class="stevilo">46</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G6"</span>, <span class="stevilo">152</span>, <span class="stevilo">303</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G7"</span>, <span class="stevilo">76</span>, <span class="stevilo">305</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G8"</span>, <span class="stevilo">92</span>, <span class="stevilo">324</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G9"</span>, <span class="stevilo">295</span>, <span class="stevilo">253</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G10"</span>, <span class="stevilo">137</span>, <span class="stevilo">447</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A10"</span>, <span class="stevilo">288</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A11"</span>, <span class="stevilo">177</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R9"</span>, <span class="stevilo">34</span>, <span class="stevilo">26</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R10"</span>, <span class="stevilo">62</span>, <span class="stevilo">61</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A12"</span>, <span class="stevilo">33</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G11"</span>, <span class="stevilo">210</span>, <span class="stevilo">199</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R11"</span>, <span class="stevilo">55</span>, <span class="stevilo">41</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A13"</span>, <span class="stevilo">300</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R12"</span>, <span class="stevilo">86</span>, <span class="stevilo">65</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R13"</span>, <span class="stevilo">59</span>, <span class="stevilo">25</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A14"</span>, <span class="stevilo">201</span>);<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab>System.out.println(stavba.casCiscenja());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            14120<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase4"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 4</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test04 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">194</span>];<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>, <span class="stevilo">22</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G1"</span>, <span class="stevilo">248</span>, <span class="stevilo">389</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G2"</span>, <span class="stevilo">211</span>, <span class="stevilo">490</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>, <span class="stevilo">80</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>, <span class="stevilo">34</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>, <span class="stevilo">33</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R4"</span>, <span class="stevilo">37</span>, <span class="stevilo">4</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R5"</span>, <span class="stevilo">52</span>, <span class="stevilo">38</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G3"</span>, <span class="stevilo">88</span>, <span class="stevilo">340</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A2"</span>, <span class="stevilo">104</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A3"</span>, <span class="stevilo">283</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R6"</span>, <span class="stevilo">71</span>, <span class="stevilo">70</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R7"</span>, <span class="stevilo">54</span>, <span class="stevilo">25</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A4"</span>, <span class="stevilo">179</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R8"</span>, <span class="stevilo">24</span>, <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A5"</span>, <span class="stevilo">124</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G4"</span>, <span class="stevilo">76</span>, <span class="stevilo">263</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G5"</span>, <span class="stevilo">161</span>, <span class="stevilo">232</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A6"</span>, <span class="stevilo">188</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G6"</span>, <span class="stevilo">279</span>, <span class="stevilo">405</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R9"</span>, <span class="stevilo">95</span>, <span class="stevilo">5</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A7"</span>, <span class="stevilo">240</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G7"</span>, <span class="stevilo">193</span>, <span class="stevilo">183</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A8"</span>, <span class="stevilo">204</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A9"</span>, <span class="stevilo">19</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G8"</span>, <span class="stevilo">290</span>, <span class="stevilo">395</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G9"</span>, <span class="stevilo">245</span>, <span class="stevilo">159</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A10"</span>, <span class="stevilo">196</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A11"</span>, <span class="stevilo">57</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G10"</span>, <span class="stevilo">188</span>, <span class="stevilo">172</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A12"</span>, <span class="stevilo">170</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G11"</span>, <span class="stevilo">166</span>, <span class="stevilo">273</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G12"</span>, <span class="stevilo">59</span>, <span class="stevilo">392</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G13"</span>, <span class="stevilo">274</span>, <span class="stevilo">431</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G14"</span>, <span class="stevilo">149</span>, <span class="stevilo">104</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A13"</span>, <span class="stevilo">261</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A14"</span>, <span class="stevilo">146</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R10"</span>, <span class="stevilo">100</span>, <span class="stevilo">48</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G15"</span>, <span class="stevilo">94</span>, <span class="stevilo">446</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R11"</span>, <span class="stevilo">19</span>, <span class="stevilo">4</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R12"</span>, <span class="stevilo">56</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G16"</span>, <span class="stevilo">170</span>, <span class="stevilo">116</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R13"</span>, <span class="stevilo">34</span>, <span class="stevilo">32</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A15"</span>, <span class="stevilo">286</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A16"</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G17"</span>, <span class="stevilo">63</span>, <span class="stevilo">140</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A17"</span>, <span class="stevilo">255</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A18"</span>, <span class="stevilo">144</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A19"</span>, <span class="stevilo">106</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G18"</span>, <span class="stevilo">77</span>, <span class="stevilo">329</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">50</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R14"</span>, <span class="stevilo">47</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">51</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A20"</span>, <span class="stevilo">77</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">52</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A21"</span>, <span class="stevilo">138</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">53</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G19"</span>, <span class="stevilo">198</span>, <span class="stevilo">323</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">54</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A22"</span>, <span class="stevilo">89</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">55</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A23"</span>, <span class="stevilo">235</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">56</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G20"</span>, <span class="stevilo">274</span>, <span class="stevilo">259</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">57</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R15"</span>, <span class="stevilo">74</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">58</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R16"</span>, <span class="stevilo">20</span>, <span class="stevilo">5</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">59</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A24"</span>, <span class="stevilo">278</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">60</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R17"</span>, <span class="stevilo">81</span>, <span class="stevilo">74</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">61</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A25"</span>, <span class="stevilo">25</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">62</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G21"</span>, <span class="stevilo">222</span>, <span class="stevilo">216</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">63</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A26"</span>, <span class="stevilo">31</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">64</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R18"</span>, <span class="stevilo">24</span>, <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">65</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R19"</span>, <span class="stevilo">33</span>, <span class="stevilo">14</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">66</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A27"</span>, <span class="stevilo">62</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">67</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R20"</span>, <span class="stevilo">98</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">68</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A28"</span>, <span class="stevilo">33</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">69</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A29"</span>, <span class="stevilo">40</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">70</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R21"</span>, <span class="stevilo">97</span>, <span class="stevilo">53</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">71</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G22"</span>, <span class="stevilo">85</span>, <span class="stevilo">373</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">72</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G23"</span>, <span class="stevilo">143</span>, <span class="stevilo">267</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">73</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A30"</span>, <span class="stevilo">251</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">74</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G24"</span>, <span class="stevilo">135</span>, <span class="stevilo">449</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">75</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R22"</span>, <span class="stevilo">33</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">76</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A31"</span>, <span class="stevilo">131</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">77</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G25"</span>, <span class="stevilo">276</span>, <span class="stevilo">332</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">78</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R23"</span>, <span class="stevilo">68</span>, <span class="stevilo">42</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">79</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R24"</span>, <span class="stevilo">18</span>, <span class="stevilo">14</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">80</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G26"</span>, <span class="stevilo">293</span>, <span class="stevilo">432</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">81</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R25"</span>, <span class="stevilo">14</span>, <span class="stevilo">2</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">82</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A32"</span>, <span class="stevilo">42</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">83</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A33"</span>, <span class="stevilo">43</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">84</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G27"</span>, <span class="stevilo">229</span>, <span class="stevilo">252</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">85</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R26"</span>, <span class="stevilo">50</span>, <span class="stevilo">28</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">86</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G28"</span>, <span class="stevilo">164</span>, <span class="stevilo">199</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">87</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A34"</span>, <span class="stevilo">248</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">88</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R27"</span>, <span class="stevilo">25</span>, <span class="stevilo">18</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">89</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R28"</span>, <span class="stevilo">82</span>, <span class="stevilo">31</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">90</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A35"</span>, <span class="stevilo">286</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">91</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R29"</span>, <span class="stevilo">53</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">92</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A36"</span>, <span class="stevilo">230</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">93</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R30"</span>, <span class="stevilo">89</span>, <span class="stevilo">88</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">94</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G29"</span>, <span class="stevilo">71</span>, <span class="stevilo">287</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">95</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R31"</span>, <span class="stevilo">75</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">96</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R32"</span>, <span class="stevilo">12</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">97</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A37"</span>, <span class="stevilo">108</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">98</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G30"</span>, <span class="stevilo">69</span>, <span class="stevilo">144</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">99</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R33"</span>, <span class="stevilo">79</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">100</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R34"</span>, <span class="stevilo">99</span>, <span class="stevilo">54</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">101</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G31"</span>, <span class="stevilo">122</span>, <span class="stevilo">167</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">102</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R35"</span>, <span class="stevilo">44</span>, <span class="stevilo">38</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">103</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A38"</span>, <span class="stevilo">78</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">104</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A39"</span>, <span class="stevilo">212</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">105</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R36"</span>, <span class="stevilo">68</span>, <span class="stevilo">42</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">106</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G32"</span>, <span class="stevilo">221</span>, <span class="stevilo">221</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">107</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R37"</span>, <span class="stevilo">43</span>, <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">108</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G33"</span>, <span class="stevilo">54</span>, <span class="stevilo">336</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">109</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A40"</span>, <span class="stevilo">65</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">110</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R38"</span>, <span class="stevilo">82</span>, <span class="stevilo">45</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">111</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R39"</span>, <span class="stevilo">11</span>, <span class="stevilo">7</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">112</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R40"</span>, <span class="stevilo">20</span>, <span class="stevilo">11</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">113</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A41"</span>, <span class="stevilo">68</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">114</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R41"</span>, <span class="stevilo">30</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">115</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A42"</span>, <span class="stevilo">186</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">116</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A43"</span>, <span class="stevilo">217</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">117</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G34"</span>, <span class="stevilo">102</span>, <span class="stevilo">227</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">118</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A44"</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">119</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A45"</span>, <span class="stevilo">83</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">120</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A46"</span>, <span class="stevilo">227</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">121</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R42"</span>, <span class="stevilo">37</span>, <span class="stevilo">26</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">122</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R43"</span>, <span class="stevilo">24</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">123</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A47"</span>, <span class="stevilo">236</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">124</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R44"</span>, <span class="stevilo">91</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">125</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R45"</span>, <span class="stevilo">69</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">126</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A48"</span>, <span class="stevilo">153</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">127</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G35"</span>, <span class="stevilo">95</span>, <span class="stevilo">229</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">128</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A49"</span>, <span class="stevilo">39</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">129</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G36"</span>, <span class="stevilo">266</span>, <span class="stevilo">378</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">130</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R46"</span>, <span class="stevilo">50</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">131</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A50"</span>, <span class="stevilo">233</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">132</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G37"</span>, <span class="stevilo">87</span>, <span class="stevilo">114</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">133</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A51"</span>, <span class="stevilo">232</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">134</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A52"</span>, <span class="stevilo">195</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">135</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A53"</span>, <span class="stevilo">233</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">136</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A54"</span>, <span class="stevilo">74</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">137</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G38"</span>, <span class="stevilo">54</span>, <span class="stevilo">211</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">138</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A55"</span>, <span class="stevilo">213</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">139</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G39"</span>, <span class="stevilo">220</span>, <span class="stevilo">144</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">140</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G40"</span>, <span class="stevilo">266</span>, <span class="stevilo">192</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">141</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A56"</span>, <span class="stevilo">88</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">142</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A57"</span>, <span class="stevilo">25</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">143</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A58"</span>, <span class="stevilo">255</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">144</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G41"</span>, <span class="stevilo">64</span>, <span class="stevilo">259</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">145</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A59"</span>, <span class="stevilo">53</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">146</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G42"</span>, <span class="stevilo">67</span>, <span class="stevilo">389</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">147</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R47"</span>, <span class="stevilo">80</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">148</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G43"</span>, <span class="stevilo">241</span>, <span class="stevilo">235</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">149</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R48"</span>, <span class="stevilo">99</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">150</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A60"</span>, <span class="stevilo">241</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">151</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A61"</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">152</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G44"</span>, <span class="stevilo">173</span>, <span class="stevilo">494</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">153</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G45"</span>, <span class="stevilo">281</span>, <span class="stevilo">341</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">154</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G46"</span>, <span class="stevilo">56</span>, <span class="stevilo">368</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">155</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A62"</span>, <span class="stevilo">265</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">156</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G47"</span>, <span class="stevilo">226</span>, <span class="stevilo">109</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">157</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R49"</span>, <span class="stevilo">60</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">158</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A63"</span>, <span class="stevilo">261</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">159</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R50"</span>, <span class="stevilo">52</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">160</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A64"</span>, <span class="stevilo">166</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">161</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G48"</span>, <span class="stevilo">82</span>, <span class="stevilo">427</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">162</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A65"</span>, <span class="stevilo">292</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">163</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G49"</span>, <span class="stevilo">236</span>, <span class="stevilo">331</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">164</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G50"</span>, <span class="stevilo">159</span>, <span class="stevilo">210</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">165</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A66"</span>, <span class="stevilo">32</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">166</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G51"</span>, <span class="stevilo">247</span>, <span class="stevilo">141</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">167</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A67"</span>, <span class="stevilo">247</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">168</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G52"</span>, <span class="stevilo">135</span>, <span class="stevilo">319</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">169</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R51"</span>, <span class="stevilo">87</span>, <span class="stevilo">31</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">170</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G53"</span>, <span class="stevilo">229</span>, <span class="stevilo">466</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">171</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R52"</span>, <span class="stevilo">92</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">172</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G54"</span>, <span class="stevilo">282</span>, <span class="stevilo">109</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">173</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R53"</span>, <span class="stevilo">66</span>, <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">174</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R54"</span>, <span class="stevilo">65</span>, <span class="stevilo">41</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">175</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R55"</span>, <span class="stevilo">68</span>, <span class="stevilo">49</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">176</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R56"</span>, <span class="stevilo">76</span>, <span class="stevilo">69</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">177</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A68"</span>, <span class="stevilo">96</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">178</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A69"</span>, <span class="stevilo">91</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">179</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A70"</span>, <span class="stevilo">275</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">180</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A71"</span>, <span class="stevilo">81</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">181</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R57"</span>, <span class="stevilo">79</span>, <span class="stevilo">71</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">182</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G55"</span>, <span class="stevilo">265</span>, <span class="stevilo">203</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">183</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G56"</span>, <span class="stevilo">216</span>, <span class="stevilo">266</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">184</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A72"</span>, <span class="stevilo">88</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">185</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R58"</span>, <span class="stevilo">31</span>, <span class="stevilo">18</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">186</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G57"</span>, <span class="stevilo">57</span>, <span class="stevilo">318</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">187</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R59"</span>, <span class="stevilo">52</span>, <span class="stevilo">11</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">188</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A73"</span>, <span class="stevilo">143</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">189</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R60"</span>, <span class="stevilo">25</span>, <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">190</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A74"</span>, <span class="stevilo">249</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">191</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G58"</span>, <span class="stevilo">98</span>, <span class="stevilo">402</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">192</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G59"</span>, <span class="stevilo">140</span>, <span class="stevilo">364</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">193</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A75"</span>, <span class="stevilo">127</span>);<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab>System.out.println(stavba.casCiscenja());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            70682<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase5"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 5</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test05 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">6</span>];<br/>
+<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>,  <span class="stevilo">20</span>,  <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Garaza(     <span class="niz">"G1"</span>, <span class="stevilo">100</span>, <span class="stevilo">200</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>,  <span class="stevilo">30</span>,  <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Avditorna(  <span class="niz">"A1"</span>,  <span class="stevilo">50</span>     );<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>,  <span class="stevilo">10</span>,  <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Avditorna(  <span class="niz">"A1"</span>,  <span class="stevilo">40</span>     );<br/>
+<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab><span class="rwordv">int</span>[] ostanek = <span class="rwordb">new</span> <span class="rwordv">int</span>[<span class="stevilo">1</span>];<br/>
+<tab><tab><span class="rwordv">int</span>[] razporeditev = null;<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">60</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">130</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">145</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">220</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">250</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">320</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [0,&nbsp;0,&nbsp;0,&nbsp;50,&nbsp;0,&nbsp;10]&nbsp;|&nbsp;0<br/>[20,&nbsp;0,&nbsp;20,&nbsp;50,&nbsp;0,&nbsp;40]&nbsp;|&nbsp;0<br/>[20,&nbsp;0,&nbsp;30,&nbsp;50,&nbsp;5,&nbsp;40]&nbsp;|&nbsp;0<br/>[20,&nbsp;70,&nbsp;30,&nbsp;50,&nbsp;10,&nbsp;40]&nbsp;|&nbsp;0<br/>[20,&nbsp;100,&nbsp;30,&nbsp;50,&nbsp;10,&nbsp;40]&nbsp;|&nbsp;0<br/>[20,&nbsp;100,&nbsp;30,&nbsp;50,&nbsp;10,&nbsp;40]&nbsp;|&nbsp;70<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase6"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 6</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test06 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">2</span>];<br/>
+<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Garaza(   <span class="niz">"G1"</span>, <span class="stevilo">100</span>, <span class="stevilo">500</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>,  <span class="stevilo">50</span>     );<br/>
+<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab><span class="rwordv">int</span>[] ostanek = <span class="rwordb">new</span> <span class="rwordv">int</span>[<span class="stevilo">1</span>];<br/>
+<tab><tab><span class="rwordv">int</span>[] razporeditev = null;<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">0</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">30</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">50</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">70</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">150</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">170</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [0,&nbsp;0]&nbsp;|&nbsp;0<br/>[0,&nbsp;30]&nbsp;|&nbsp;0<br/>[0,&nbsp;50]&nbsp;|&nbsp;0<br/>[20,&nbsp;50]&nbsp;|&nbsp;0<br/>[100,&nbsp;50]&nbsp;|&nbsp;0<br/>[100,&nbsp;50]&nbsp;|&nbsp;20<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase7"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 7</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test07 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">51</span>];<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G1"</span>, <span class="stevilo">136</span>, <span class="stevilo">355</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G2"</span>, <span class="stevilo">257</span>, <span class="stevilo">452</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>, <span class="stevilo">33</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>, <span class="stevilo">76</span>, <span class="stevilo">72</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>, <span class="stevilo">16</span>, <span class="stevilo">7</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G3"</span>, <span class="stevilo">56</span>, <span class="stevilo">323</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G4"</span>, <span class="stevilo">145</span>, <span class="stevilo">275</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A2"</span>, <span class="stevilo">252</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>, <span class="stevilo">62</span>, <span class="stevilo">57</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R4"</span>, <span class="stevilo">98</span>, <span class="stevilo">11</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R5"</span>, <span class="stevilo">43</span>, <span class="stevilo">21</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A3"</span>, <span class="stevilo">238</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R6"</span>, <span class="stevilo">66</span>, <span class="stevilo">37</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A4"</span>, <span class="stevilo">242</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R7"</span>, <span class="stevilo">51</span>, <span class="stevilo">33</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G5"</span>, <span class="stevilo">130</span>, <span class="stevilo">166</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G6"</span>, <span class="stevilo">199</span>, <span class="stevilo">219</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G7"</span>, <span class="stevilo">140</span>, <span class="stevilo">404</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A5"</span>, <span class="stevilo">212</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R8"</span>, <span class="stevilo">65</span>, <span class="stevilo">60</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A6"</span>, <span class="stevilo">267</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G8"</span>, <span class="stevilo">86</span>, <span class="stevilo">478</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R9"</span>, <span class="stevilo">90</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R10"</span>, <span class="stevilo">42</span>, <span class="stevilo">21</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R11"</span>, <span class="stevilo">32</span>, <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G9"</span>, <span class="stevilo">296</span>, <span class="stevilo">425</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R12"</span>, <span class="stevilo">22</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R13"</span>, <span class="stevilo">23</span>, <span class="stevilo">2</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G10"</span>, <span class="stevilo">102</span>, <span class="stevilo">377</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R14"</span>, <span class="stevilo">34</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R15"</span>, <span class="stevilo">14</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R16"</span>, <span class="stevilo">78</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A7"</span>, <span class="stevilo">116</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A8"</span>, <span class="stevilo">121</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A9"</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G11"</span>, <span class="stevilo">116</span>, <span class="stevilo">184</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A10"</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R17"</span>, <span class="stevilo">64</span>, <span class="stevilo">18</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G12"</span>, <span class="stevilo">266</span>, <span class="stevilo">256</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R18"</span>, <span class="stevilo">19</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G13"</span>, <span class="stevilo">198</span>, <span class="stevilo">343</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G14"</span>, <span class="stevilo">250</span>, <span class="stevilo">458</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G15"</span>, <span class="stevilo">271</span>, <span class="stevilo">115</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G16"</span>, <span class="stevilo">225</span>, <span class="stevilo">128</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G17"</span>, <span class="stevilo">133</span>, <span class="stevilo">386</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R19"</span>, <span class="stevilo">56</span>, <span class="stevilo">21</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A11"</span>, <span class="stevilo">246</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G18"</span>, <span class="stevilo">264</span>, <span class="stevilo">322</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A12"</span>, <span class="stevilo">54</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G19"</span>, <span class="stevilo">158</span>, <span class="stevilo">173</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">50</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R20"</span>, <span class="stevilo">80</span>, <span class="stevilo">58</span>);<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab><span class="rwordv">int</span>[] ostanek = <span class="rwordb">new</span> <span class="rwordv">int</span>[<span class="stevilo">1</span>];<br/>
+<tab><tab><span class="rwordv">int</span>[] razporeditev = null;<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">723</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">3034</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">5112</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">11661</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [0,&nbsp;0,&nbsp;33,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;252,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;238,&nbsp;0,&nbsp;200,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]&nbsp;|&nbsp;0<br/>[136,&nbsp;18,&nbsp;33,&nbsp;76,&nbsp;16,&nbsp;0,&nbsp;0,&nbsp;252,&nbsp;62,&nbsp;98,&nbsp;43,&nbsp;238,&nbsp;66,&nbsp;242,&nbsp;51,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;212,&nbsp;65,&nbsp;267,&nbsp;0,&nbsp;90,&nbsp;42,&nbsp;32,&nbsp;0,&nbsp;22,&nbsp;23,&nbsp;0,&nbsp;34,&nbsp;14,&nbsp;78,&nbsp;116,&nbsp;121,&nbsp;56,&nbsp;0,&nbsp;12,&nbsp;64,&nbsp;0,&nbsp;19,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;56,&nbsp;246,&nbsp;0,&nbsp;54,&nbsp;0,&nbsp;80]&nbsp;|&nbsp;0<br/>[136,&nbsp;257,&nbsp;33,&nbsp;76,&nbsp;16,&nbsp;56,&nbsp;145,&nbsp;252,&nbsp;62,&nbsp;98,&nbsp;43,&nbsp;238,&nbsp;66,&nbsp;242,&nbsp;51,&nbsp;130,&nbsp;199,&nbsp;140,&nbsp;212,&nbsp;65,&nbsp;267,&nbsp;86,&nbsp;90,&nbsp;42,&nbsp;32,&nbsp;296,&nbsp;22,&nbsp;23,&nbsp;102,&nbsp;34,&nbsp;14,&nbsp;78,&nbsp;116,&nbsp;121,&nbsp;56,&nbsp;116,&nbsp;12,&nbsp;64,&nbsp;266,&nbsp;19,&nbsp;198,&nbsp;105,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;56,&nbsp;246,&nbsp;0,&nbsp;54,&nbsp;0,&nbsp;80]&nbsp;|&nbsp;0<br/>[136,&nbsp;257,&nbsp;33,&nbsp;76,&nbsp;16,&nbsp;56,&nbsp;145,&nbsp;252,&nbsp;62,&nbsp;98,&nbsp;43,&nbsp;238,&nbsp;66,&nbsp;242,&nbsp;51,&nbsp;130,&nbsp;199,&nbsp;140,&nbsp;212,&nbsp;65,&nbsp;267,&nbsp;86,&nbsp;90,&nbsp;42,&nbsp;32,&nbsp;296,&nbsp;22,&nbsp;23,&nbsp;102,&nbsp;34,&nbsp;14,&nbsp;78,&nbsp;116,&nbsp;121,&nbsp;56,&nbsp;116,&nbsp;12,&nbsp;64,&nbsp;266,&nbsp;19,&nbsp;198,&nbsp;250,&nbsp;271,&nbsp;225,&nbsp;133,&nbsp;56,&nbsp;246,&nbsp;264,&nbsp;54,&nbsp;158,&nbsp;80]&nbsp;|&nbsp;5353<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase8"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 8</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test08 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Predavalnica[] predavalnice = <span class="rwordb">new</span> Tretja.Predavalnica[<span class="stevilo">197</span>];<br/>
+<tab><tab>predavalnice[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R1"</span>, <span class="stevilo">87</span>, <span class="stevilo">50</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R2"</span>, <span class="stevilo">41</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A1"</span>, <span class="stevilo">118</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G1"</span>, <span class="stevilo">283</span>, <span class="stevilo">123</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A2"</span>, <span class="stevilo">260</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G2"</span>, <span class="stevilo">129</span>, <span class="stevilo">213</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R3"</span>, <span class="stevilo">33</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A3"</span>, <span class="stevilo">47</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G3"</span>, <span class="stevilo">102</span>, <span class="stevilo">231</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A4"</span>, <span class="stevilo">284</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R4"</span>, <span class="stevilo">17</span>, <span class="stevilo">5</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G4"</span>, <span class="stevilo">297</span>, <span class="stevilo">481</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G5"</span>, <span class="stevilo">186</span>, <span class="stevilo">311</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A5"</span>, <span class="stevilo">129</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A6"</span>, <span class="stevilo">247</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A7"</span>, <span class="stevilo">259</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R5"</span>, <span class="stevilo">24</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R6"</span>, <span class="stevilo">88</span>, <span class="stevilo">48</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A8"</span>, <span class="stevilo">158</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R7"</span>, <span class="stevilo">25</span>, <span class="stevilo">23</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G6"</span>, <span class="stevilo">269</span>, <span class="stevilo">405</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R8"</span>, <span class="stevilo">52</span>, <span class="stevilo">47</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G7"</span>, <span class="stevilo">187</span>, <span class="stevilo">468</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G8"</span>, <span class="stevilo">288</span>, <span class="stevilo">212</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A9"</span>, <span class="stevilo">29</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G9"</span>, <span class="stevilo">184</span>, <span class="stevilo">297</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G10"</span>, <span class="stevilo">132</span>, <span class="stevilo">391</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R9"</span>, <span class="stevilo">11</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A10"</span>, <span class="stevilo">80</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">29</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R10"</span>, <span class="stevilo">84</span>, <span class="stevilo">82</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">30</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R11"</span>, <span class="stevilo">15</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">31</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R12"</span>, <span class="stevilo">93</span>, <span class="stevilo">42</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">32</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G11"</span>, <span class="stevilo">57</span>, <span class="stevilo">155</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">33</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R13"</span>, <span class="stevilo">60</span>, <span class="stevilo">42</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">34</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R14"</span>, <span class="stevilo">34</span>, <span class="stevilo">20</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">35</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R15"</span>, <span class="stevilo">12</span>, <span class="stevilo">9</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">36</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R16"</span>, <span class="stevilo">26</span>, <span class="stevilo">19</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">37</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R17"</span>, <span class="stevilo">59</span>, <span class="stevilo">23</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">38</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A11"</span>, <span class="stevilo">296</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">39</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R18"</span>, <span class="stevilo">11</span>, <span class="stevilo">10</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">40</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R19"</span>, <span class="stevilo">34</span>, <span class="stevilo">14</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">41</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A12"</span>, <span class="stevilo">273</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">42</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G12"</span>, <span class="stevilo">166</span>, <span class="stevilo">308</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">43</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G13"</span>, <span class="stevilo">287</span>, <span class="stevilo">309</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">44</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G14"</span>, <span class="stevilo">133</span>, <span class="stevilo">337</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">45</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R20"</span>, <span class="stevilo">15</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">46</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R21"</span>, <span class="stevilo">89</span>, <span class="stevilo">52</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">47</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G15"</span>, <span class="stevilo">82</span>, <span class="stevilo">307</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">48</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R22"</span>, <span class="stevilo">30</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">49</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R23"</span>, <span class="stevilo">17</span>, <span class="stevilo">16</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">50</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A13"</span>, <span class="stevilo">287</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">51</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G16"</span>, <span class="stevilo">170</span>, <span class="stevilo">340</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">52</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A14"</span>, <span class="stevilo">238</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">53</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G17"</span>, <span class="stevilo">221</span>, <span class="stevilo">492</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">54</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A15"</span>, <span class="stevilo">50</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">55</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R24"</span>, <span class="stevilo">100</span>, <span class="stevilo">92</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">56</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G18"</span>, <span class="stevilo">140</span>, <span class="stevilo">485</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">57</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A16"</span>, <span class="stevilo">151</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">58</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G19"</span>, <span class="stevilo">284</span>, <span class="stevilo">112</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">59</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G20"</span>, <span class="stevilo">224</span>, <span class="stevilo">205</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">60</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A17"</span>, <span class="stevilo">238</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">61</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R25"</span>, <span class="stevilo">49</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">62</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G21"</span>, <span class="stevilo">142</span>, <span class="stevilo">356</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">63</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A18"</span>, <span class="stevilo">254</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">64</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A19"</span>, <span class="stevilo">190</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">65</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G22"</span>, <span class="stevilo">120</span>, <span class="stevilo">147</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">66</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A20"</span>, <span class="stevilo">295</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">67</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A21"</span>, <span class="stevilo">115</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">68</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R26"</span>, <span class="stevilo">74</span>, <span class="stevilo">4</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">69</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G23"</span>, <span class="stevilo">261</span>, <span class="stevilo">457</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">70</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R27"</span>, <span class="stevilo">100</span>, <span class="stevilo">18</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">71</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A22"</span>, <span class="stevilo">174</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">72</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G24"</span>, <span class="stevilo">53</span>, <span class="stevilo">321</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">73</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A23"</span>, <span class="stevilo">233</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">74</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R28"</span>, <span class="stevilo">85</span>, <span class="stevilo">78</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">75</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R29"</span>, <span class="stevilo">25</span>, <span class="stevilo">24</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">76</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R30"</span>, <span class="stevilo">79</span>, <span class="stevilo">49</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">77</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A24"</span>, <span class="stevilo">293</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">78</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G25"</span>, <span class="stevilo">224</span>, <span class="stevilo">270</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">79</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A25"</span>, <span class="stevilo">224</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">80</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G26"</span>, <span class="stevilo">59</span>, <span class="stevilo">113</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">81</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G27"</span>, <span class="stevilo">204</span>, <span class="stevilo">180</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">82</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R31"</span>, <span class="stevilo">100</span>, <span class="stevilo">93</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">83</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G28"</span>, <span class="stevilo">79</span>, <span class="stevilo">137</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">84</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A26"</span>, <span class="stevilo">249</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">85</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A27"</span>, <span class="stevilo">239</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">86</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A28"</span>, <span class="stevilo">29</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">87</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A29"</span>, <span class="stevilo">266</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">88</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A30"</span>, <span class="stevilo">112</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">89</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R32"</span>, <span class="stevilo">94</span>, <span class="stevilo">56</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">90</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G29"</span>, <span class="stevilo">249</span>, <span class="stevilo">143</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">91</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R33"</span>, <span class="stevilo">70</span>, <span class="stevilo">69</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">92</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A31"</span>, <span class="stevilo">186</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">93</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G30"</span>, <span class="stevilo">280</span>, <span class="stevilo">436</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">94</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G31"</span>, <span class="stevilo">275</span>, <span class="stevilo">103</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">95</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R34"</span>, <span class="stevilo">72</span>, <span class="stevilo">52</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">96</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A32"</span>, <span class="stevilo">46</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">97</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R35"</span>, <span class="stevilo">83</span>, <span class="stevilo">9</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">98</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G32"</span>, <span class="stevilo">153</span>, <span class="stevilo">392</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">99</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G33"</span>, <span class="stevilo">293</span>, <span class="stevilo">300</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">100</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R36"</span>, <span class="stevilo">14</span>, <span class="stevilo">2</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">101</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R37"</span>, <span class="stevilo">26</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">102</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R38"</span>, <span class="stevilo">29</span>, <span class="stevilo">17</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">103</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G34"</span>, <span class="stevilo">268</span>, <span class="stevilo">442</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">104</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R39"</span>, <span class="stevilo">51</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">105</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A33"</span>, <span class="stevilo">82</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">106</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A34"</span>, <span class="stevilo">68</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">107</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G35"</span>, <span class="stevilo">82</span>, <span class="stevilo">392</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">108</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R40"</span>, <span class="stevilo">88</span>, <span class="stevilo">28</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">109</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G36"</span>, <span class="stevilo">279</span>, <span class="stevilo">128</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">110</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R41"</span>, <span class="stevilo">30</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">111</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R42"</span>, <span class="stevilo">23</span>, <span class="stevilo">22</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">112</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A35"</span>, <span class="stevilo">158</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">113</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R43"</span>, <span class="stevilo">71</span>, <span class="stevilo">67</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">114</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G37"</span>, <span class="stevilo">225</span>, <span class="stevilo">139</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">115</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G38"</span>, <span class="stevilo">243</span>, <span class="stevilo">357</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">116</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R44"</span>, <span class="stevilo">95</span>, <span class="stevilo">65</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">117</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G39"</span>, <span class="stevilo">288</span>, <span class="stevilo">322</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">118</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G40"</span>, <span class="stevilo">117</span>, <span class="stevilo">483</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">119</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R45"</span>, <span class="stevilo">89</span>, <span class="stevilo">11</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">120</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R46"</span>, <span class="stevilo">96</span>, <span class="stevilo">84</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">121</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R47"</span>, <span class="stevilo">66</span>, <span class="stevilo">63</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">122</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R48"</span>, <span class="stevilo">63</span>, <span class="stevilo">29</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">123</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A36"</span>, <span class="stevilo">40</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">124</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G41"</span>, <span class="stevilo">256</span>, <span class="stevilo">266</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">125</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G42"</span>, <span class="stevilo">175</span>, <span class="stevilo">456</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">126</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A37"</span>, <span class="stevilo">52</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">127</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A38"</span>, <span class="stevilo">165</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">128</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A39"</span>, <span class="stevilo">140</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">129</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R49"</span>, <span class="stevilo">85</span>, <span class="stevilo">55</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">130</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R50"</span>, <span class="stevilo">12</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">131</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R51"</span>, <span class="stevilo">10</span>, <span class="stevilo">5</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">132</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G43"</span>, <span class="stevilo">96</span>, <span class="stevilo">446</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">133</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G44"</span>, <span class="stevilo">77</span>, <span class="stevilo">361</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">134</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R52"</span>, <span class="stevilo">52</span>, <span class="stevilo">18</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">135</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A40"</span>, <span class="stevilo">292</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">136</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R53"</span>, <span class="stevilo">41</span>, <span class="stevilo">6</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">137</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G45"</span>, <span class="stevilo">203</span>, <span class="stevilo">132</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">138</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R54"</span>, <span class="stevilo">37</span>, <span class="stevilo">15</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">139</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G46"</span>, <span class="stevilo">278</span>, <span class="stevilo">200</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">140</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A41"</span>, <span class="stevilo">279</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">141</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G47"</span>, <span class="stevilo">88</span>, <span class="stevilo">346</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">142</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G48"</span>, <span class="stevilo">280</span>, <span class="stevilo">315</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">143</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G49"</span>, <span class="stevilo">295</span>, <span class="stevilo">262</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">144</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G50"</span>, <span class="stevilo">158</span>, <span class="stevilo">292</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">145</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G51"</span>, <span class="stevilo">133</span>, <span class="stevilo">252</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">146</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R55"</span>, <span class="stevilo">31</span>, <span class="stevilo">22</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">147</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A42"</span>, <span class="stevilo">208</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">148</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R56"</span>, <span class="stevilo">28</span>, <span class="stevilo">9</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">149</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G52"</span>, <span class="stevilo">197</span>, <span class="stevilo">211</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">150</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R57"</span>, <span class="stevilo">64</span>, <span class="stevilo">30</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">151</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A43"</span>, <span class="stevilo">225</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">152</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G53"</span>, <span class="stevilo">168</span>, <span class="stevilo">415</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">153</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A44"</span>, <span class="stevilo">266</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">154</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R58"</span>, <span class="stevilo">56</span>, <span class="stevilo">8</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">155</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G54"</span>, <span class="stevilo">106</span>, <span class="stevilo">472</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">156</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G55"</span>, <span class="stevilo">157</span>, <span class="stevilo">206</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">157</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R59"</span>, <span class="stevilo">10</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">158</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R60"</span>, <span class="stevilo">60</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">159</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G56"</span>, <span class="stevilo">204</span>, <span class="stevilo">290</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">160</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A45"</span>, <span class="stevilo">232</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">161</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R61"</span>, <span class="stevilo">72</span>, <span class="stevilo">35</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">162</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R62"</span>, <span class="stevilo">12</span>, <span class="stevilo">1</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">163</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A46"</span>, <span class="stevilo">160</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">164</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A47"</span>, <span class="stevilo">146</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">165</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A48"</span>, <span class="stevilo">13</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">166</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A49"</span>, <span class="stevilo">174</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">167</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G57"</span>, <span class="stevilo">148</span>, <span class="stevilo">316</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">168</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A50"</span>, <span class="stevilo">150</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">169</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G58"</span>, <span class="stevilo">79</span>, <span class="stevilo">265</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">170</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R63"</span>, <span class="stevilo">10</span>, <span class="stevilo">3</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">171</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R64"</span>, <span class="stevilo">84</span>, <span class="stevilo">26</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">172</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G59"</span>, <span class="stevilo">65</span>, <span class="stevilo">389</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">173</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G60"</span>, <span class="stevilo">297</span>, <span class="stevilo">129</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">174</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A51"</span>, <span class="stevilo">291</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">175</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G61"</span>, <span class="stevilo">117</span>, <span class="stevilo">388</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">176</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G62"</span>, <span class="stevilo">216</span>, <span class="stevilo">272</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">177</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A52"</span>, <span class="stevilo">287</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">178</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G63"</span>, <span class="stevilo">67</span>, <span class="stevilo">389</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">179</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G64"</span>, <span class="stevilo">99</span>, <span class="stevilo">403</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">180</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G65"</span>, <span class="stevilo">277</span>, <span class="stevilo">337</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">181</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G66"</span>, <span class="stevilo">224</span>, <span class="stevilo">316</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">182</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R65"</span>, <span class="stevilo">25</span>, <span class="stevilo">7</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">183</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A53"</span>, <span class="stevilo">244</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">184</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A54"</span>, <span class="stevilo">99</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">185</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R66"</span>, <span class="stevilo">88</span>, <span class="stevilo">12</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">186</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A55"</span>, <span class="stevilo">91</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">187</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G67"</span>, <span class="stevilo">286</span>, <span class="stevilo">212</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">188</span>] = <span class="rwordb">new</span> Tretja.Racunalnica(<span class="niz">"R67"</span>, <span class="stevilo">47</span>, <span class="stevilo">36</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">189</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A56"</span>, <span class="stevilo">293</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">190</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G68"</span>, <span class="stevilo">267</span>, <span class="stevilo">429</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">191</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G69"</span>, <span class="stevilo">97</span>, <span class="stevilo">161</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">192</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G70"</span>, <span class="stevilo">83</span>, <span class="stevilo">255</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">193</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G71"</span>, <span class="stevilo">166</span>, <span class="stevilo">143</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">194</span>] = <span class="rwordb">new</span> Tretja.Garaza(<span class="niz">"G72"</span>, <span class="stevilo">68</span>, <span class="stevilo">234</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">195</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A57"</span>, <span class="stevilo">138</span>);<br/>
+<tab><tab>predavalnice[<span class="stevilo">196</span>] = <span class="rwordb">new</span> Tretja.Avditorna(<span class="niz">"A58"</span>, <span class="stevilo">281</span>);<br/>
+<tab><tab>Tretja.Stavba stavba = <span class="rwordb">new</span> Tretja.Stavba(predavalnice);<br/>
+<br/>
+<tab><tab><span class="rwordv">int</span>[] ostanek = <span class="rwordb">new</span> <span class="rwordv">int</span>[<span class="stevilo">1</span>];<br/>
+<tab><tab><span class="rwordv">int</span>[] razporeditev = null;<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">9069</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">11872</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">22857</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<br/>
+<tab><tab>ostanek[<span class="stevilo">0</span>] = -<span class="stevilo">1</span>;<br/>
+<tab><tab>razporeditev = stavba.razporedi(<span class="stevilo">27297</span>, ostanek);<br/>
+<tab><tab>System.out.printf(<span class="niz">"%s | %d%n"</span>, Arrays.toString(razporeditev), ostanek[<span class="stevilo">0</span>]);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            [0,&nbsp;0,&nbsp;118,&nbsp;0,&nbsp;260,&nbsp;0,&nbsp;0,&nbsp;47,&nbsp;0,&nbsp;284,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;129,&nbsp;247,&nbsp;259,&nbsp;0,&nbsp;0,&nbsp;158,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;29,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;80,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;296,&nbsp;0,&nbsp;0,&nbsp;273,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;287,&nbsp;0,&nbsp;238,&nbsp;0,&nbsp;50,&nbsp;0,&nbsp;0,&nbsp;151,&nbsp;0,&nbsp;0,&nbsp;238,&nbsp;0,&nbsp;0,&nbsp;254,&nbsp;190,&nbsp;0,&nbsp;295,&nbsp;115,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;174,&nbsp;0,&nbsp;233,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;293,&nbsp;0,&nbsp;224,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;249,&nbsp;239,&nbsp;29,&nbsp;266,&nbsp;112,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;186,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;46,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;82,&nbsp;68,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;158,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;40,&nbsp;0,&nbsp;0,&nbsp;52,&nbsp;165,&nbsp;140,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;292,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;279,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;208,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;225,&nbsp;0,&nbsp;266,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;232,&nbsp;0,&nbsp;0,&nbsp;160,&nbsp;146,&nbsp;13,&nbsp;174,&nbsp;0,&nbsp;150,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;170,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]&nbsp;|&nbsp;0<br/>[87,&nbsp;41,&nbsp;118,&nbsp;0,&nbsp;260,&nbsp;0,&nbsp;33,&nbsp;47,&nbsp;0,&nbsp;284,&nbsp;17,&nbsp;0,&nbsp;0,&nbsp;129,&nbsp;247,&nbsp;259,&nbsp;24,&nbsp;88,&nbsp;158,&nbsp;25,&nbsp;0,&nbsp;52,&nbsp;0,&nbsp;0,&nbsp;29,&nbsp;0,&nbsp;0,&nbsp;11,&nbsp;80,&nbsp;84,&nbsp;15,&nbsp;93,&nbsp;0,&nbsp;60,&nbsp;34,&nbsp;12,&nbsp;26,&nbsp;59,&nbsp;296,&nbsp;11,&nbsp;34,&nbsp;273,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;15,&nbsp;89,&nbsp;0,&nbsp;30,&nbsp;17,&nbsp;287,&nbsp;0,&nbsp;238,&nbsp;0,&nbsp;50,&nbsp;100,&nbsp;0,&nbsp;151,&nbsp;0,&nbsp;0,&nbsp;238,&nbsp;49,&nbsp;0,&nbsp;254,&nbsp;190,&nbsp;0,&nbsp;295,&nbsp;115,&nbsp;74,&nbsp;0,&nbsp;69,&nbsp;174,&nbsp;0,&nbsp;233,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;293,&nbsp;0,&nbsp;224,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;249,&nbsp;239,&nbsp;29,&nbsp;266,&nbsp;112,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;186,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;46,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;82,&nbsp;68,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;158,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;40,&nbsp;0,&nbsp;0,&nbsp;52,&nbsp;165,&nbsp;140,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;292,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;279,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;208,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;225,&nbsp;0,&nbsp;266,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;232,&nbsp;0,&nbsp;0,&nbsp;160,&nbsp;146,&nbsp;13,&nbsp;174,&nbsp;0,&nbsp;150,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;291,&nbsp;0,&nbsp;0,&nbsp;287,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;244,&nbsp;99,&nbsp;0,&nbsp;91,&nbsp;0,&nbsp;0,&nbsp;293,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;138,&nbsp;281]&nbsp;|&nbsp;0<br/>[87,&nbsp;41,&nbsp;118,&nbsp;283,&nbsp;260,&nbsp;129,&nbsp;33,&nbsp;47,&nbsp;102,&nbsp;284,&nbsp;17,&nbsp;297,&nbsp;186,&nbsp;129,&nbsp;247,&nbsp;259,&nbsp;24,&nbsp;88,&nbsp;158,&nbsp;25,&nbsp;269,&nbsp;52,&nbsp;187,&nbsp;288,&nbsp;29,&nbsp;184,&nbsp;132,&nbsp;11,&nbsp;80,&nbsp;84,&nbsp;15,&nbsp;93,&nbsp;57,&nbsp;60,&nbsp;34,&nbsp;12,&nbsp;26,&nbsp;59,&nbsp;296,&nbsp;11,&nbsp;34,&nbsp;273,&nbsp;166,&nbsp;287,&nbsp;133,&nbsp;15,&nbsp;89,&nbsp;82,&nbsp;30,&nbsp;17,&nbsp;287,&nbsp;170,&nbsp;238,&nbsp;221,&nbsp;50,&nbsp;100,&nbsp;140,&nbsp;151,&nbsp;284,&nbsp;224,&nbsp;238,&nbsp;49,&nbsp;142,&nbsp;254,&nbsp;190,&nbsp;120,&nbsp;295,&nbsp;115,&nbsp;74,&nbsp;261,&nbsp;100,&nbsp;174,&nbsp;53,&nbsp;233,&nbsp;85,&nbsp;25,&nbsp;79,&nbsp;293,&nbsp;224,&nbsp;224,&nbsp;59,&nbsp;204,&nbsp;100,&nbsp;79,&nbsp;249,&nbsp;239,&nbsp;29,&nbsp;266,&nbsp;112,&nbsp;94,&nbsp;249,&nbsp;70,&nbsp;186,&nbsp;280,&nbsp;275,&nbsp;72,&nbsp;46,&nbsp;83,&nbsp;153,&nbsp;293,&nbsp;14,&nbsp;26,&nbsp;29,&nbsp;268,&nbsp;51,&nbsp;82,&nbsp;68,&nbsp;82,&nbsp;88,&nbsp;279,&nbsp;30,&nbsp;23,&nbsp;158,&nbsp;71,&nbsp;225,&nbsp;243,&nbsp;95,&nbsp;288,&nbsp;117,&nbsp;89,&nbsp;96,&nbsp;66,&nbsp;63,&nbsp;40,&nbsp;256,&nbsp;175,&nbsp;52,&nbsp;165,&nbsp;140,&nbsp;85,&nbsp;12,&nbsp;10,&nbsp;96,&nbsp;77,&nbsp;52,&nbsp;292,&nbsp;41,&nbsp;203,&nbsp;37,&nbsp;259,&nbsp;279,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;31,&nbsp;208,&nbsp;28,&nbsp;0,&nbsp;64,&nbsp;225,&nbsp;0,&nbsp;266,&nbsp;56,&nbsp;0,&nbsp;0,&nbsp;10,&nbsp;60,&nbsp;0,&nbsp;232,&nbsp;72,&nbsp;12,&nbsp;160,&nbsp;146,&nbsp;13,&nbsp;174,&nbsp;0,&nbsp;150,&nbsp;0,&nbsp;10,&nbsp;84,&nbsp;0,&nbsp;0,&nbsp;291,&nbsp;0,&nbsp;0,&nbsp;287,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;25,&nbsp;244,&nbsp;99,&nbsp;88,&nbsp;91,&nbsp;0,&nbsp;47,&nbsp;293,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;138,&nbsp;281]&nbsp;|&nbsp;0<br/>[87,&nbsp;41,&nbsp;118,&nbsp;283,&nbsp;260,&nbsp;129,&nbsp;33,&nbsp;47,&nbsp;102,&nbsp;284,&nbsp;17,&nbsp;297,&nbsp;186,&nbsp;129,&nbsp;247,&nbsp;259,&nbsp;24,&nbsp;88,&nbsp;158,&nbsp;25,&nbsp;269,&nbsp;52,&nbsp;187,&nbsp;288,&nbsp;29,&nbsp;184,&nbsp;132,&nbsp;11,&nbsp;80,&nbsp;84,&nbsp;15,&nbsp;93,&nbsp;57,&nbsp;60,&nbsp;34,&nbsp;12,&nbsp;26,&nbsp;59,&nbsp;296,&nbsp;11,&nbsp;34,&nbsp;273,&nbsp;166,&nbsp;287,&nbsp;133,&nbsp;15,&nbsp;89,&nbsp;82,&nbsp;30,&nbsp;17,&nbsp;287,&nbsp;170,&nbsp;238,&nbsp;221,&nbsp;50,&nbsp;100,&nbsp;140,&nbsp;151,&nbsp;284,&nbsp;224,&nbsp;238,&nbsp;49,&nbsp;142,&nbsp;254,&nbsp;190,&nbsp;120,&nbsp;295,&nbsp;115,&nbsp;74,&nbsp;261,&nbsp;100,&nbsp;174,&nbsp;53,&nbsp;233,&nbsp;85,&nbsp;25,&nbsp;79,&nbsp;293,&nbsp;224,&nbsp;224,&nbsp;59,&nbsp;204,&nbsp;100,&nbsp;79,&nbsp;249,&nbsp;239,&nbsp;29,&nbsp;266,&nbsp;112,&nbsp;94,&nbsp;249,&nbsp;70,&nbsp;186,&nbsp;280,&nbsp;275,&nbsp;72,&nbsp;46,&nbsp;83,&nbsp;153,&nbsp;293,&nbsp;14,&nbsp;26,&nbsp;29,&nbsp;268,&nbsp;51,&nbsp;82,&nbsp;68,&nbsp;82,&nbsp;88,&nbsp;279,&nbsp;30,&nbsp;23,&nbsp;158,&nbsp;71,&nbsp;225,&nbsp;243,&nbsp;95,&nbsp;288,&nbsp;117,&nbsp;89,&nbsp;96,&nbsp;66,&nbsp;63,&nbsp;40,&nbsp;256,&nbsp;175,&nbsp;52,&nbsp;165,&nbsp;140,&nbsp;85,&nbsp;12,&nbsp;10,&nbsp;96,&nbsp;77,&nbsp;52,&nbsp;292,&nbsp;41,&nbsp;203,&nbsp;37,&nbsp;278,&nbsp;279,&nbsp;88,&nbsp;280,&nbsp;295,&nbsp;158,&nbsp;133,&nbsp;31,&nbsp;208,&nbsp;28,&nbsp;197,&nbsp;64,&nbsp;225,&nbsp;168,&nbsp;266,&nbsp;56,&nbsp;106,&nbsp;157,&nbsp;10,&nbsp;60,&nbsp;204,&nbsp;232,&nbsp;72,&nbsp;12,&nbsp;160,&nbsp;146,&nbsp;13,&nbsp;174,&nbsp;148,&nbsp;150,&nbsp;79,&nbsp;10,&nbsp;84,&nbsp;65,&nbsp;297,&nbsp;291,&nbsp;117,&nbsp;216,&nbsp;287,&nbsp;67,&nbsp;99,&nbsp;277,&nbsp;224,&nbsp;25,&nbsp;244,&nbsp;99,&nbsp;88,&nbsp;91,&nbsp;286,&nbsp;47,&nbsp;293,&nbsp;267,&nbsp;97,&nbsp;83,&nbsp;166,&nbsp;68,&nbsp;138,&nbsp;281]&nbsp;|&nbsp;79<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.8" -->
+    <!-- 11.8.2022 3:28.27 -->
+    <!-- DESKTOP-DBKLRDG, fe80::6030:5156:5a87:b37e%6 -->
+</html>

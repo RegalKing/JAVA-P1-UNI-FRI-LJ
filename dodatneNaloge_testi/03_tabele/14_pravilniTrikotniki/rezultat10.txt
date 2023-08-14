@@ -1,0 +1,2 @@
+Error: Could not find or load main class PTrikotniki
+Caused by: java.lang.ClassNotFoundException: PTrikotniki

@@ -1,0 +1,5 @@
+Smreka(605, 882)
+Smreka(442, 106)
+Breza(198, 639)
+Breza(744, 948)
+Smreka(770, 719)

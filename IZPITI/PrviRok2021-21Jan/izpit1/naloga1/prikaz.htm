@@ -1,0 +1,416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja <span style="color: #700000;">Prva.java</span> (2/2)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            6<br/>
+333<br/>
+7210<br/>
+2315432<br/>
+1000000000<br/>
+865312<br/>
+9<br/>
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            189<br/>
+865321100<br/>
+965222211<br/>
+18993712<br/>
+284825360<br/>
+340016248<br/>
+776433210<br/>
+635907570<br/>
+674333057<br/>
+865322110<br/>
+42189453<br/>
+612300649<br/>
+32290030<br/>
+988755431<br/>
+387085588<br/>
+132719319<br/>
+997776552<br/>
+663449552<br/>
+876555431<br/>
+833287722<br/>
+998776410<br/>
+875544210<br/>
+997765531<br/>
+122652136<br/>
+765421100<br/>
+996555430<br/>
+886555433<br/>
+765544220<br/>
+876543210<br/>
+8754321<br/>
+987654310<br/>
+594958335<br/>
+787891129<br/>
+140486944<br/>
+706627213<br/>
+195392771<br/>
+765443300<br/>
+611826705<br/>
+99633210<br/>
+694543961<br/>
+998655411<br/>
+875444332<br/>
+693874144<br/>
+776441100<br/>
+232965863<br/>
+998653210<br/>
+987554421<br/>
+877521000<br/>
+938152428<br/>
+987664332<br/>
+777666321<br/>
+987777640<br/>
+97532221<br/>
+760807648<br/>
+977755543<br/>
+999654331<br/>
+887332100<br/>
+106954612<br/>
+873321110<br/>
+977765442<br/>
+998655541<br/>
+800950740<br/>
+987522110<br/>
+765442110<br/>
+598921262<br/>
+354389084<br/>
+441545793<br/>
+98765510<br/>
+88753221<br/>
+765443221<br/>
+887432211<br/>
+998775211<br/>
+551340574<br/>
+976654100<br/>
+520513792<br/>
+110515155<br/>
+499064102<br/>
+987632100<br/>
+779290365<br/>
+988642221<br/>
+678026022<br/>
+228612517<br/>
+955433210<br/>
+876541110<br/>
+300970764<br/>
+988865410<br/>
+977333221<br/>
+24823986<br/>
+406725853<br/>
+776654432<br/>
+988765532<br/>
+227968684<br/>
+998865420<br/>
+986542000<br/>
+119591669<br/>
+887088049<br/>
+35234444<br/>
+755433200<br/>
+985533310<br/>
+999754432<br/>
+633818439<br/>
+775432210<br/>
+877655421<br/>
+975432222<br/>
+975411100<br/>
+99988411<br/>
+988532000<br/>
+136686851<br/>
+997662221<br/>
+999887643<br/>
+493792912<br/>
+860850352<br/>
+338143889<br/>
+130415681<br/>
+790719843<br/>
+876544211<br/>
+88930017<br/>
+48517997<br/>
+997666510<br/>
+764422221<br/>
+9888220<br/>
+358529299<br/>
+988755431<br/>
+628992535<br/>
+887643221<br/>
+604589067<br/>
+999421100<br/>
+918751003<br/>
+988773210<br/>
+622822903<br/>
+87643210<br/>
+65543200<br/>
+99986663<br/>
+619476791<br/>
+88632111<br/>
+876433200<br/>
+998832111<br/>
+584040978<br/>
+899896859<br/>
+759395257<br/>
+666544221<br/>
+85443321<br/>
+222925175<br/>
+97443220<br/>
+728724484<br/>
+999873100<br/>
+886532221<br/>
+995442220<br/>
+977775220<br/>
+987544220<br/>
+159054584<br/>
+526096127<br/>
+966533110<br/>
+996553210<br/>
+59582419<br/>
+54332200<br/>
+77280131<br/>
+158594112<br/>
+382198473<br/>
+715747071<br/>
+289651867<br/>
+997754330<br/>
+417102805<br/>
+273114570<br/>
+97533200<br/>
+998776550<br/>
+925753509<br/>
+392877029<br/>
+318070796<br/>
+988775410<br/>
+88776200<br/>
+191621204<br/>
+451753707<br/>
+262144026<br/>
+729662494<br/>
+864332110<br/>
+302677253<br/>
+394469533<br/>
+966665543<br/>
+986542111<br/>
+877533220<br/>
+987766542<br/>
+24732213<br/>
+986664432<br/>
+766532210<br/>
+976654432<br/>
+986665333<br/>
+96532210<br/>
+591661404<br/>
+8765422<br/>
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>DA<br/>NE<br/>NE<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>DA<br/>DA<br/>NE<br/>NE<br/>NE<br/>NE<br/>DA<br/>NE<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/>DA<br/>DA<br/>DA<br/>DA<br/>NE<br/>DA<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.7" -->
+    <!-- 15.8.2022 5:50.11 -->
+    <!-- DESKTOP-DBKLRDG, fe80::c448:8453:294a:f202%43 -->
+</html>
